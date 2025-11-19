@@ -41,4 +41,3 @@
 * Категорирование: [OneHotEncoder]
 * Pipeline – последовательность и автоматизация этапов
 * GridSearchSV – выбор модели по сетке с различными моделями, скалерами и параметрами…
-<img width="2826" height="1024" alt="image" src="https://github.com/user-attachments/assets/f805aee1-f20d-4b52-9efb-124c8b88d6b1" />
