@@ -41,3 +41,5 @@
 * Категорирование: [OneHotEncoder]
 * Pipeline – последовательность и автоматизация этапов
 * GridSearchSV – выбор модели по сетке с различными моделями, скалерами и параметрами…
+
+**Лучшая модель:** Логистическая регрессия с параметрами {'classifier': LogisticRegression(max_iter=1000, random_state=42), 'classifier__C': 0.3, 'classifier__max_iter': 20, 'classifier__penalty': 'l2', 'classifier__solver': 'liblinear', 'scaler': MaxAbsScaler()}
