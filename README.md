@@ -39,10 +39,10 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge)
 ![Seaborn](https://img.shields.io/badge/Seaborn-3776AB?style=for-the-badge)
-![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white)
-![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
 ![IPython](https://img.shields.io/badge/IPython-3776AB?style=for-the-badge&logo=ipython&logoColor=white)
 ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 ![Requests](https://img.shields.io/badge/Requests-2CA5E0?style=for-the-badge)
@@ -51,8 +51,16 @@
 ![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
 ![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-![PyCharm](https://img.shields.io/badge/PyCharm-000000?style=for-the-badge&logo=pycharm&logoColor=white)
-
+![PyCharm](https://img.shields.io/badge/PyCharm-000000?style=for-the-badge&logo=pycharm&logoColor=white)![Pickle](https://img.shields.io/badge/Pickle-3776AB?style=for-the-badge)
+![Re](https://img.shields.io/badge/Re-3776AB?style=for-the-badge)
+![IO](https://img.shields.io/badge/IO-3776AB?style=for-the-badge)
+![OS](https://img.shields.io/badge/OS-3776AB?style=for-the-badge)
+![Typing](https://img.shields.io/badge/Typing-3776AB?style=for-the-badge)
+![Pymorphy3](https://img.shields.io/badge/Pymorphy3-FF6F00?style=for-the-badge)
+![Mutagen](https://img.shields.io/badge/Mutagen-1DB954?style=for-the-badge)
+![Collections](https://img.shields.io/badge/Collections-3776AB?style=for-the-badge)
+![Phik](https://img.shields.io/badge/Phik-FF6F00?style=for-the-badge)
+![Warnings](https://img.shields.io/badge/Warnings-3776AB?style=for-the-badge)
 
 
 ## 📊 Ключевые навыки
