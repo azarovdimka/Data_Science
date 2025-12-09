@@ -3,6 +3,13 @@
 2. Провели статистический анализ данных;
 3. Определили факторы, которые больше всего влияют на цену квадратного метра.
 
+![IPython](https://img.shields.io/badge/IPython-3776AB?style=for-the-badge&logo=ipython&logoColor=white)
+![matplotlib](https://img.shields.io/badge/matplotlib-11557c?style=for-the-badge)
+![pandas](https://img.shields.io/badge/pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![numpy](https://img.shields.io/badge/numpy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![seaborn](https://img.shields.io/badge/seaborn-3776AB?style=for-the-badge)
+
+---
 
 ## 🛴 **Самокаты Go Fast:**
 1. Провели EDA (исследовалтельский анализ данных);
@@ -11,6 +18,14 @@
 4. Ответили на поставленные вопросы;
 5. Дали рекомендации.
 
+![IPython](https://img.shields.io/badge/IPython-3776AB?style=for-the-badge&logo=ipython&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![numpy](https://img.shields.io/badge/numpy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![matplotlib](https://img.shields.io/badge/matplotlib-11557c?style=for-the-badge)
+![seaborn](https://img.shields.io/badge/seaborn-3776AB?style=for-the-badge)
+![scipy](https://img.shields.io/badge/scipy-8CAAE6?style=for-the-badge&logo=scipy&logoColor=white)
+
+---
 
 ## 📉 **Скоринговая модель по поиску недооценных акций**
 1. Алгоритм парсит сайты
