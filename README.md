@@ -77,20 +77,6 @@
 
 
 
-## 🚀 Как использовать
-
-1. Клонируйте репозиторий:
-```bash
-git clone https://github.com/your-username/Data_Science.git
-```
-
-2. Установите зависимости:
-```bash
-pip install -r requirements.txt
-```
-
-3. Откройте интересующий проект в Jupyter Notebook
-
 ## 📞 Контакты
 
 - 📧 Email: dmi-azarov@ya.ru
