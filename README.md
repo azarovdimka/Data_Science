@@ -74,7 +74,7 @@ pip install -r requirements.txt
 ## 📞 Контакты
 
 - 📧 Email: dmi-azarov@ya.ru
-- 💼 HeadHunter: [Ваш профиль]([https://hh.ru/resume/your-id](https://spb.hh.ru/resume/a6024a0dff0c9466340039ed1f41474d32564d?hhtmFrom=resume_partial_edit))
+- 💼 HeadHunter: [Мое резюме](https://spb.hh.ru/resume/a6024a0dff0c9466340039ed1f41474d32564d)
 - 📱 Telegram: @Azarov_ML
 
 ---
