@@ -1,0 +1,12 @@
+# Игнорировать временные файлы
+temp/
+*.csv
+*.dll
+*.exe
+*.zip
+*.tar.gz
+*.log
+venv/
+pycache/
+venv
+pycache

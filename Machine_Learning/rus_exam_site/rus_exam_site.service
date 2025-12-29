@@ -1,0 +1,19 @@
+[Unit]
+Description=Russian Exam Site
+After=network.target
+
+[Service]
+TimeoutStartSec=0
+TimeoutStopSec=0
+KillMode=mixed
+KillSignal=SIGTERM
+Type=simple
+User=root
+WorkingDirectory=/var/www/rus_exam_site
+Environment=PATH=/opt/rus_exam_venv39/bin
+ExecStart=/opt/rus_exam_venv39/bin/python backend/main.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
