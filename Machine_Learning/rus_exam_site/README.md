@@ -102,27 +102,12 @@ f1_score: 0.76
 
 ## Установка и запуск
 
-# 1. Создать виртуальное окружение
-python3.10.12 -m venv /opt/rus_exam_venv
-source /opt/rus_exam_venv/bin/activate
+**1) Скопировать файлы на сервер** 
 
-# 2. Перейти в папку проекта на сервере и скопирвоать туда весь проект
-cd /var/www/rus_exam_site
+**- Содержание файла .service**
 
-# 3. Установить все зависимости
-pip install -r requirements.txt
-
-# 4. Проверить ключевые библиотеки
-python -c "import sklearn; print(sklearn.__version__)"
-
-# 5. Запустите приложение: `python backend/main.py`
-
-
-
-**Соержание файла .service**
-
-Запуск приложения как сервис:
-Создать /etc/systemd/system/rus_exam_site.service:
+Запуск приложения как сервис на сервере:
+Создать на сервере /etc/systemd/system/rus_exam_site.service:
 
 ```
 [Unit]
@@ -143,9 +128,10 @@ sudo systemctl enable rus_exam_site
 sudo systemctl start rus_exam_site
 ```
 
-**создание конфигурации ngnix**
+**- Файл конфигурации ngnix**
 
 /etc/nginx/sites-available/rus_exam_site/rus_exam_site.conf
+
 ```
 server {
     listen 80;
@@ -163,10 +149,26 @@ server {
 }
 ```
 
+Ввести команду: 
 systemctl reload nginx
+
+# 2. Создать виртуальное окружение
+python3.10.12 -m venv /opt/rus_exam_venv
+source /opt/rus_exam_venv/bin/activate
+
+# 3. Перейти в папку проекта на сервере и скопирвоать туда весь проект
+cd /var/www/rus_exam_site
+
+# 4. Установить все зависимости
+pip install -r requirements.txt
+
+# 5. Проверить ключевые библиотеки
+python -c "import sklearn; print(sklearn.__version__)"
+
+# 6. Запустите приложение: `python backend/main.py`
 
 
 **Запуск сервера:** 
 - локально в терминале: python backend/main.py или docker-compose up
-- открыть в браузере: http://localhost:8000
+- открыть в браузере: http://vds.spb.su:8000
 
