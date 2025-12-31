@@ -96,36 +96,7 @@
 - Ротация логов
 - Централизованный сбор логов
 
-## Развертывание
 
-### Локальное развертывание
-```bash
-# Клонирование репозитория
-git clone <repository-url>
-cd exam-scoring-system
-
-# Установка зависимостей
-pip install -r requirements.txt
-
-# Настройка БД
-createdb exam_db
-python -m alembic upgrade head
-
-# Запуск приложения
-python backend/main.py
-```
-
-### Docker развертывание
-```bash
-# Сборка и запуск
-docker-compose up -d
-
-# Проверка статуса
-docker-compose ps
-
-# Просмотр логов
-docker-compose logs -f web
-```
 
 ### Продакшн развертывание
 - Использование Gunicorn/uWSGI
@@ -133,7 +104,6 @@ docker-compose logs -f web
 - SSL сертификаты
 - Автоматические бэкапы БД
 
-## Обслуживание
 
 ### Регулярные задачи
 - Обновление ML модели
@@ -141,48 +111,3 @@ docker-compose logs -f web
 - Бэкап базы данных
 - Мониторинг производительности
 
-### Обновления
-- Blue-green deployment
-- Миграции БД
-- Тестирование на staging
-
-## Интеграция
-
-### API Endpoints
-- `POST /upload-csv/` - загрузка CSV файла
-- `GET /download/{filename}` - скачивание результата
-- `POST /predict-single/` - оценка одного ответа
-- `GET /api/stats` - статистика системы
-- `GET /health` - проверка состояния
-
-### Внешние сервисы
-- Google Speech-to-Text API
-- Yandex SpeechKit
-- Telegram Bot API (опционально)
-
-## Тестирование
-
-### Типы тестов
-- Unit тесты (pytest)
-- Integration тесты
-- Load тесты (Locust)
-- E2E тесты (Selenium)
-
-### Покрытие кода
-- Минимум 80% покрытие
-- Автоматические тесты в CI/CD
-- Тестирование ML модели
-
-## Резервное копирование
-
-### Стратегия бэкапов
-- Ежедневные бэкапы БД
-- Недельные полные бэкапы
-- Хранение в облаке
-- Тестирование восстановления
-
-### Восстановление
-- RTO: 4 часа
-- RPO: 24 часа
-- Документированная процедура
-- Регулярные drill-тесты

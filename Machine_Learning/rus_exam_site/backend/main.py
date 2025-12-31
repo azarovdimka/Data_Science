@@ -2,6 +2,9 @@
 Основной файл FastAPI приложения для автоматической оценки экзаменов
 """
 
+# Настройка middleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File, UploadFile, HTTPException, Request, WebSocket
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -22,12 +25,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from backend.services.ml_service import MLService
 from backend.services.audio_service import AudioService
 
-try:
-    from database.handlers.exam_handler import ExamHandler
-    DB_AVAILABLE = True
-except ImportError:
-    DB_AVAILABLE = False
-    print("База данных недоступна. Работа без БД.")
     
 try:
     from config.settings import Settings
@@ -46,9 +43,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Настройка middleware
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 app.add_middleware(
@@ -119,18 +113,6 @@ async def upload_csv(file: UploadFile = File(...)):
         if df is None:
             raise HTTPException(status_code=400, detail="Не удалось определить кодировку файла")
         
-        # # Валидация структуры файла
-        # required_columns = [
-        #     'Id экзамена', 'Id вопроса', '№ вопроса', 
-        #     'Текст вопроса', 'Транскрибация ответа'
-        # ]
-        
-        # missing_columns = [col for col in required_columns if col not in df.columns]
-        # if missing_columns:
-        #     raise HTTPException(
-        #         status_code=400, 
-        #         detail=f"Отсутствуют обязательные колонки: {missing_columns}"
-        #     )
         
         # Сохраняем информацию о задаче
         processing_tasks[task_id] = {

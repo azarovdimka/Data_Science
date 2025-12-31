@@ -1,3 +1,5 @@
+# TODO проверить используется ли файл
+
 from setuptools import setup, find_packages
 
 setup(

@@ -1,31 +1,31 @@
-"""
-Сервис для обработки аудиофайлов и получения транскрипций
-Транскрибация аудио в текст
-Поддержка форматов: MP3, WAV, M4A, OGG
-Конвертация в WAV
-Распознавание речи через Google Speech Recognition
-Валидация файлов (размер до 50MB)
-"""
+# """
+# Сервис для обработки аудиофайлов и получения транскрипций
+# Транскрибация аудио в текст
+# Поддержка форматов: MP3, WAV, M4A, OGG
+# Конвертация в WAV
+# Распознавание речи через Google Speech Recognition
+# Валидация файлов (размер до 50MB)
+# """
 
-try:
-    # import speech_recognition as sr
-    # from pydub import AudioSegment
-    AUDIO_AVAILABLE = True
-except ImportError:
-    AUDIO_AVAILABLE = False
-    print("Audio libraries not installed. Transcription unavailable.")
+# try:
+#     # import speech_recognition as sr
+#     # from pydub import AudioSegment
+#     AUDIO_AVAILABLE = True
+# except ImportError:
+#     AUDIO_AVAILABLE = False
+#     print("Audio libraries not installed. Transcription unavailable.")
 
-import os
-from typing import Optional
-import asyncio
+# import os
+# from typing import Optional
+# import asyncio
 
-class AudioService:
-    """Сервис для работы с аудиофайлами"""
+# class AudioService:
+#     """Сервис для работы с аудиофайлами"""
     
-    def __init__(self):
-        if AUDIO_AVAILABLE:
-            self.recognizer = sr.Recognizer()
-        self.supported_formats = ['.mp3', '.wav', '.m4a', '.ogg']
+#     def __init__(self):
+#         if AUDIO_AVAILABLE:
+#             self.recognizer = sr.Recognizer()
+#         self.supported_formats = ['.mp3', '.wav', '.m4a', '.ogg']
     
     # def convert_to_wav(self, audio_path: str) -> str:
     #     """Конвертация аудиофайла в WAV формат"""

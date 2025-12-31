@@ -1,6 +1,7 @@
 """
 Препроцессор данных на основе ml_analysis.ipynb
-Включает AudioProcessor и DataPreprocessor для полной обработки данных
+Включает AudioProcessor и DataPreprocessor для полной обработки данных:
+Скачивает аудио, проводит морфологический анализ, генерирует новые производные столбцы (признаки).
 """
 
 import pandas as pd
