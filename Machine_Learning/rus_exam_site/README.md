@@ -55,17 +55,12 @@ f1_score: 0.76
 |   |   └─ index.html        # главная страница с Bootstrap 5
 │   └── components/          # Компоненты интерфейса
 |
-├── ml_models/                       # Модели машинного обучения использует Random Forest + TF-IDF для анализа текста
-│   ├── inference/                   # Скрипты предсказания
-│   └── models/                      # Сохраненные модели
-|   |   └── evaluate_exam_model.pkl  # Сама модель
-|   |
-│   └── training/                    # Скрипты обучения
-│       └── train_model.py           # Cкрипт обучения модели на реальных данных экзаменов
-|
 |
 ├── tests/                   # Тесты
+└── evaluate_exam_model.pkl  # Сама модель
 └── requirements.txt         # Зависимости Python
+└── rus_exam_site.conf       # копия файла conf, который должен быть скопирован на сервер в директорию `/etc/nginx/conf.d/rus_exam_site.conf`
+└── rus_exam_site.service    # копия файла service, который должен быть скопирован на сервер в директорию `/etc/systemd/system/rus_exam_site.service`
 └── rus_exam.ipynb           # Рабочий джупитр ноутбук для анализа входящих данных, отладки алгоритмов и обучения модели
 ```
 
@@ -83,7 +78,7 @@ f1_score: 0.76
 python3.10.12 -m venv /opt/rus_exam_venv
 source /opt/rus_exam_venv/bin/activate
 
-# 2. Перейти в папку проекта
+# 2. Перейти в папку проекта на сервере и скопирвоать туда весь проект
 cd /var/www/rus_exam_site
 
 # 3. Установить все зависимости
@@ -119,31 +114,12 @@ python -c "import sklearn; print(sklearn.__version__)"
 - Вопрос 4: 0-2 балла
 
 
-## Что дальше? Как развернуть веб-приложение?
 
-1) **Копируем проект**
-1)  при помощи файлового менеджера FilaZilla заходим на сервере в директорию /var/www
-1.1.)  создаем там папку rus_exam_site 
-1.2) и копируем в нее весь проект
-
-2) **Виртуальное окружение**
-python -m venv venv     # создать
-venv\Scripts\activate   # активировать
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser   # разрешить выполнение скриптов
-
-3) **Установить завиcимости** requiriments.txt
-- на локальном компьютере в терминале IDE или в командной строке:
-- на удаленном сервере можно со своего компьютера через MobaXterm переходим в папку cd /var/www/rus_site_exam
-
-вводим команды:
-pip3 install -r requiriments.txt
-
-
-3) **Запуск сервера:** 
+**Запуск сервера:** 
 - локально в терминале: python backend/main.py или docker-compose up
 - открыть в браузере: http://localhost:8000
 
-**на сервере**
+**Соержание файла .service**
 
 Запуск приложения как сервис:
 Создать /etc/systemd/system/rus_exam_site.service:
@@ -189,6 +165,3 @@ server {
 
 systemctl reload nginx
 
-**остановить и перезапустить сервер**
-Ctrl+C
-python backend/main.py
