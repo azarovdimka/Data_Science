@@ -8,5 +8,6 @@ temp/
 *.log
 venv/
 pycache/
+catboostinfo/
 venv
 pycache
