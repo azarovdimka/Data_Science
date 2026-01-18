@@ -11,7 +11,7 @@ from typing import Dict, Any
 class HeartAttackAPITester:
     """Класс для тестирования API предсказания сердечных приступов."""
     
-    def __init__(self, base_url: str = "http://localhost:8000"):
+    def __init__(self, base_url: str = "http://localhost:8001"):
         """
         Инициализация тестера.
         

@@ -20,16 +20,16 @@ def main():
         os.makedirs(directory, exist_ok=True)
     
     print("🚀 Запуск Heart Attack Prediction API...")
-    print("📍 API будет доступен по адресу: http://localhost:8000")
-    print("📖 Документация API: http://localhost:8000/docs")
-    print("🌐 Веб-интерфейс: http://localhost:8000")
+    print("📍 API будет доступен по адресу: http://localhost:8001")
+    print("📖 Документация API: http://localhost:8001/docs")
+    print("🌐 Веб-интерфейс: http://localhost:8001")
     print("\n" + "="*50)
     
     # Запуск сервера
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=8000,
+        port=8001,
         reload=True,
         log_level="info"
     )
