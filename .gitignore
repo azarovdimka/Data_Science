@@ -8,8 +8,9 @@ temp/
 *.log
 venv/
 pycache/
-catboostinfo/
+catboost_info/
 venv
 pycache
 Песочница/
 песочница/
+Data_Science/Machine_Learning/catboost_info/
