@@ -271,7 +271,7 @@ class DataProcessor:
         self.preprocessor: Optional[EDAPreprocessor] = None
         self.selected_features: Optional[List[str]] = None
         self.label_encoders: Dict[str, Any] = {}
-        self.scaler: Optional[StandardScaler] = None
+        self.scaler: Optional[StandardScaler] = StandardScaler()  # Инициализируем скейлер
         self.is_fitted: bool = False
         
         logging.basicConfig(level=logging.INFO)
@@ -309,6 +309,7 @@ class DataProcessor:
             .add_missing_value_handler(strategy='median')  # Обрабатываем пропуски медианой
             .add_drop_duplicates()  # Удаляем дубликаты
         )
+        self.logger.info("Пайплайн предобработки создан")
     
     def preprocess(self, df: pd.DataFrame, fit_selector: bool = False) -> pd.DataFrame:
         """
@@ -329,6 +330,11 @@ class DataProcessor:
             if 'Heart Attack Risk (Binary)' in df.columns:
                 target = df['Heart Attack Risk (Binary)'].copy()
             
+            # Проверяем, что preprocessor инициализирован
+            if self.preprocessor is None:
+                self.logger.warning("Preprocessor не инициализирован, создаем новый")
+                self._create_preprocessing_pipeline()
+            
             # Базовая предобработка через пайплайн (удаление столбцов, обработка пропусков)
             processed_df = self.preprocessor.fit_transform(df.copy())
             
@@ -345,10 +351,11 @@ class DataProcessor:
                 # Применяем обученный селектор к тестовым данным
                 processed_df = self._apply_feature_selection(processed_df)
             
-            # Масштабирование (опционально)
+            # Масштабирование
             if fit_selector:
                 # Обучаем скейлер на обучающих данных
-                self.scaler = StandardScaler()
+                if self.scaler is None:
+                    self.scaler = StandardScaler()
                 processed_df = pd.DataFrame(
                     self.scaler.fit_transform(processed_df),
                     columns=processed_df.columns,
@@ -356,11 +363,14 @@ class DataProcessor:
                 )
             elif self.scaler is not None:
                 # Применяем обученный скейлер к тестовым данным
-                processed_df = pd.DataFrame(
-                    self.scaler.transform(processed_df),
-                    columns=processed_df.columns,
-                    index=processed_df.index
-                )
+                try:
+                    processed_df = pd.DataFrame(
+                        self.scaler.transform(processed_df),
+                        columns=processed_df.columns,
+                        index=processed_df.index
+                    )
+                except Exception as e:
+                    self.logger.warning(f"Ошибка при масштабировании: {e}. Пропускаем масштабирование.")
             
             self.is_fitted = True
             self.logger.info(f"Предобработка завершена. Итоговых признаков: {processed_df.shape[1]}")
