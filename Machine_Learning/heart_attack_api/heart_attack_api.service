@@ -11,7 +11,7 @@ Type=simple
 User=root
 WorkingDirectory=/var/www/heart_attack_api
 Environment=PATH=/opt/heart_attack_venv39/bin
-ExecStart=/opt/heart_attack_venv39/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8001
+ExecStart=/usr/local/bin/python3.10 -m uvicorn app.main:app --host 0.0.0.0 --port 8001
 Restart=always
 RestartSec=10
 
