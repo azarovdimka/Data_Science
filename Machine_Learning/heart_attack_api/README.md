@@ -124,7 +124,7 @@ POST /predict/json
 Content-Type: application/json
 ```
 
-**Тело запроса:**
+**Тело запроса: Признаки и примеры данных**
 ```json
 {
   "Age": 0.45,
