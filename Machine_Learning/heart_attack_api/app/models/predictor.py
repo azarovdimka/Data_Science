@@ -15,9 +15,11 @@ class HeartAttackPredictor:
         self.model = None
         self.data_processor = DataProcessor()
         self.is_loaded = False
+        self.optimal_threshold = 0.5  # Дефолтный порог
         
         # Пути к файлам модели
         self.model_path = Path("models/heart_attack_model.cbm")
+        self.threshold_path = Path("models/optimal_threshold.pkl")
         
         try:
             self._load_model()
@@ -28,10 +30,19 @@ class HeartAttackPredictor:
             self._create_dummy_model()
 
     def _load_model(self):
-        """Загрузка обученной модели"""
+        """Загрузка обученной модели и оптимального порога"""
         if self.model_path.exists():
             self.model = CatBoostClassifier()
             self.model.load_model(str(self.model_path))
+            
+            # Загрузка оптимального порога
+            if self.threshold_path.exists():
+                import joblib
+                self.optimal_threshold = joblib.load(self.threshold_path)
+                logger.info(f"Оптимальный порог загружен: {self.optimal_threshold}")
+            else:
+                logger.warning(f"Файл порога не найден: {self.threshold_path}, использую дефолтный 0.5")
+            
             self.is_loaded = True
             logger.info(f"Модель загружена из {self.model_path}")
         else:
@@ -61,7 +72,7 @@ class HeartAttackPredictor:
 
 
     def predict_single(self, data):
-        """Предсказание для одного образца"""
+        """Предсказание для одного образца с оптимальным порогом"""
         try:
             # Преобразуем в DataFrame
             df = pd.DataFrame([data])
@@ -69,13 +80,16 @@ class HeartAttackPredictor:
             # Используем полную предобработку из DataProcessor
             processed_df = self.data_processor.preprocess(df, fit_selector=False)
             
-            # Получаем предсказание и вероятность
-            prediction = self.model.predict(processed_df)[0]
+            # Получаем вероятности
             probabilities = self.model.predict_proba(processed_df)[0]
+            probability_positive = float(probabilities[1])
+            
+            # Применяем оптимальный порог для медицинского диагноза
+            prediction = 1 if probability_positive >= self.optimal_threshold else 0
             
             return {
                 'prediction': int(prediction),
-                'probability': float(probabilities[1])  # вероятность класса 1
+                'probability': probability_positive
             }
             
         except Exception as e:
@@ -83,7 +97,7 @@ class HeartAttackPredictor:
             raise
     
     def predict_batch(self, df):
-        """Предсказание для батча данных"""
+        """Предсказание для батча данных с оптимальным порогом"""
         try:
             # Сохраняем id если есть
             ids = df['id'].tolist() if 'id' in df.columns else list(range(len(df)))
@@ -91,17 +105,19 @@ class HeartAttackPredictor:
             # Используем полную предобработку из DataProcessor
             processed_df = self.data_processor.preprocess(df, fit_selector=False)
             
-            # Получаем предсказания и вероятности
-            predictions = self.model.predict(processed_df)
+            # Получаем вероятности
             probabilities = self.model.predict_proba(processed_df)
             
-            # Формируем результат
+            # Формируем результат с оптимальным порогом
             results = []
-            for i, (pred, prob) in enumerate(zip(predictions, probabilities)):
+            for i, prob in enumerate(probabilities):
+                probability_positive = float(prob[1])
+                prediction = 1 if probability_positive >= self.optimal_threshold else 0
+                
                 results.append({
                     'id': ids[i],
-                    'prediction': int(pred),
-                    'probability': float(prob[1])  # вероятность класса 1
+                    'prediction': int(prediction),
+                    'probability': probability_positive
                 })
             
             return results
@@ -116,6 +132,8 @@ class HeartAttackPredictor:
             'model_type': 'CatBoost Classifier',
             'is_loaded': self.is_loaded,
             'model_path': str(self.model_path),
+            'optimal_threshold': self.optimal_threshold,
+            'threshold_path': str(self.threshold_path),
             'features_count': len(self.data_processor.get_feature_names()) if self.data_processor.selected_features else 'unknown'
         }
     

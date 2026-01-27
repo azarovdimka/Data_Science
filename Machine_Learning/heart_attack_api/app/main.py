@@ -217,6 +217,8 @@ async def get_model_info() -> Dict[str, Any]:
             "features_created": "9 отобранных признаков (bmi_diabetes, pressure_product, и др.)",
             "feature_selection": "Корреляционный отбор (топ-9 признаков)",
             "scaling": "StandardScaler",
+            "medical_optimization": f"Оптимальный порог {model_info.get('optimal_threshold', 0.5)} для высокого recall",
+            "recall_target": "92%+ для медицинской диагностики",
             "version": "1.0.0",
             "description": "Модель для предсказания риска сердечного приступа с полной предобработкой данных"
         })

@@ -105,9 +105,10 @@ class DecimalPointChanger(BaseEstimator, TransformerMixin):
 class OutlierRemover(BaseEstimator, TransformerMixin):
     """Класс для удаления выбросов методом IQR только для train."""
     
-    def __init__(self, columns: List[str] = None, factor=1.5):
+    def __init__(self, columns: List[str] = None, factor=1.5, replace_with_nan=False):
         self.columns = columns
         self.factor = factor
+        self.replace_with_nan = replace_with_nan
         self.bounds_dict = {}
     
     def fit(self, X: pd.DataFrame, y=None):
@@ -115,6 +116,23 @@ class OutlierRemover(BaseEstimator, TransformerMixin):
     
     def transform(self, X: pd.DataFrame, y=None) -> pd.DataFrame:
         # Не удаляем выбросы в медицинских данных
+        if self.replace_with_nan:
+            df = X.copy()
+            cols_to_process = self.columns if self.columns else df.select_dtypes(include=[np.number]).columns
+            
+            for col in cols_to_process:
+                if col in df.columns:
+                    Q1 = df[col].quantile(0.25)
+                    Q3 = df[col].quantile(0.75)
+                    IQR = Q3 - Q1
+                    lower_bound = Q1 - self.factor * IQR
+                    upper_bound = Q3 + self.factor * IQR
+                    
+                    outliers = (df[col] < lower_bound) | (df[col] > upper_bound)
+                    df.loc[outliers, col] = np.nan
+            
+            return df
+        
         return X
 
 class DuplicateRemover(BaseEstimator, TransformerMixin):

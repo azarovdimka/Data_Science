@@ -16,3 +16,15 @@ pycache
 Data_Science/Machine_Learning/catboost_info/
 Machine_Learning/catboost_info/
 python_packages/
+# Модели и артефакты
+models/*.cbm
+models/*.pkl
+*.joblib
+
+# Данные
+data/
+*.csv
+
+# Логи
+logs/
+*.log
