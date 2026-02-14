@@ -13,6 +13,7 @@ venv
 pycache
 Песочница/
 песочница/
+LLM/LLM теория/
 Data_Science/Machine_Learning/catboost_info/
 Machine_Learning/catboost_info/
 python_packages/
