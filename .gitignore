@@ -3,6 +3,8 @@ temp/
 *.csv
 *.dll
 *.exe
+*.toml
+*.txt
 *.zip
 *.tar.gz
 *.log
@@ -12,7 +14,10 @@ catboost_info/
 venv
 pycache
 Песочница/
+LLM/outtput/
 LLM/LLM теория/
+LLM/colab_env/
+LLM/lenta-ru-news.csv.gz
 Machine_Learning/Рыночная стоимость авто/datasets/
 Data_Science/Machine_Learning/catboost_info/
 Machine_Learning/catboost_info/
@@ -29,3 +34,9 @@ data/
 # Логи
 logs/
 *.log
+
+venv/
+__pycache__/
+*.pyc
+.env
+git
