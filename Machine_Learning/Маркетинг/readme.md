@@ -28,17 +28,17 @@
 
 ## 🛠 **Технологический стек**
 
-● Python 3.x 
+● `Python 3.x` 
 
-● Pandas, NumPy — обработка данных
+● `Pandas`, `NumPy` — обработка данных
 
-● Scikit-learn — ML-пайплайны, метрики
+● `Scikit-learn` — ML-пайплайны, метрики
 
-● LightGBM, CatBoost, LogisticRegression — модели
+● `LightGBM`, `CatBoost`, `LogisticRegression` — модели
 
-● Dython — анализ корреляций
+● `Dython` — анализ корреляций
 
-● KMeans — сегментация клиентов
+● `KMeans` — сегментация клиентов
 
 ## 🚀 **Что было сделано**
 
