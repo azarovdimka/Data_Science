@@ -133,13 +133,13 @@
 
 **Рекомендация:** Модель LightGBM рекомендуется к внедрению для ранжирования клиентов и таргетирования рассылок.
 
-📞 **Контакты**
+## 📞 Мои контакты
 
-**Email:** [dmi-azarov@ya.ru](mailto:dmi-azarov@ya.ru)
+- 👤 Автор: **Азаров Дмитрий**
+- 📧 Email: dmi-azarov@ya.ru
+- 💼 HeadHunter: [Мое резюме](https://spb.hh.ru/resume/a6fcd487ff1025789c0039ed1f533942445749)
+- 📱 Telegram: [@Azarov_ML](https://web.telegram.org/a/#157758328)
 
-**Telegram:** [@Azarov_ML](https://t.me/azarov_ml)
-
-**HeadHunter:** [Резюме](https://spb.hh.ru/resume/a6fcd487ff1025789c0039ed1f533942445749)
 
 
 ⭐ Если проект был полезен, поставьте звездочку!

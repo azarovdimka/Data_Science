@@ -170,3 +170,10 @@ python -c "import sklearn; print(sklearn.__version__)"
 - локально в терминале: python backend/main.py или docker-compose up
 - открыть в браузере: http://vds.spb.su:8000
 
+
+## 📞 Мои контакты
+
+- 👤 Автор: **Азаров Дмитрий**
+- 📧 Email: dmi-azarov@ya.ru
+- 💼 HeadHunter: [Мое резюме](https://spb.hh.ru/resume/a6fcd487ff1025789c0039ed1f533942445749)
+- 📱 Telegram: [@Azarov_ML](https://web.telegram.org/a/#157758328)
