@@ -76,9 +76,9 @@
 ![Warnings](https://img.shields.io/badge/Warnings-3776AB?style=for-the-badge)
 
 
+## 📞 Мои контакты
 
-## 📞 Контакты
-
+- 👤 Автор: **Азаров Дмитрий**
 - 📧 Email: dmi-azarov@ya.ru
 - 💼 HeadHunter: [Мое резюме](https://spb.hh.ru/resume/a6fcd487ff1025789c0039ed1f533942445749)
 - 📱 Telegram: [@Azarov_ML](https://web.telegram.org/a/#157758328)

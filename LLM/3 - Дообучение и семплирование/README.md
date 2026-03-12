@@ -244,12 +244,12 @@ print(output[0]['generated_text'])
 - [GPT-2 Paper](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)
 - [Lenta.ru Dataset](https://github.com/yutkin/Lenta.Ru-News-Dataset)
 
-## 👤 Автор
+## Мои контакты
 
-**Азаров Дмитрий**
-- Email: dmi-azarov@ya.ru
-- Telegram: [@Azarov_ML](https://web.telegram.org/a/#157758328)
-- HeadHunter: [Резюме](https://spb.hh.ru/resume/a6024a0dff0c9466340039ed1f41474d32564d)
+- 👤 Автор: **Азаров Дмитрий**
+- 📧 Email: dmi-azarov@ya.ru
+- 💼 HeadHunter: [Мое резюме](https://spb.hh.ru/resume/a6fcd487ff1025789c0039ed1f533942445749)
+- 📱 Telegram: [@Azarov_ML](https://web.telegram.org/a/#157758328)
 
 ## 📄 Лицензия
 
