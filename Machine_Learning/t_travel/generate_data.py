@@ -19,8 +19,9 @@ def generate_room_data(n_samples=10000):
         # Определяем, будет ли запись неполной (30% неполных)
         is_incomplete = np.random.random() < 0.3
         
-        # Базовые поля
-        room_name = random.choice(room_types) if np.random.random() > 0.1 else ''
+        # Базовые поля - тип комнаты
+        room_class = random.choice(room_types) if np.random.random() > 0.1 else ''
+        # Базовые поля - оператор бронирования
         operator = random.choice(operators)
         
         # Площадь комнаты
@@ -73,7 +74,7 @@ def generate_room_data(n_samples=10000):
         data.append({
             'id': i,
             'operator': operator,
-            'room_name': room_name,
+            'room_class': room_class,
             'area': area,
             'bed_type': bed_type,
             'view': view,
