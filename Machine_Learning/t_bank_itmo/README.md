@@ -8,7 +8,7 @@
 | Метрика | Значение |
 |---|---|
 | **PR-AUC (Kaggle leaderboard)** | **0.9735** |
-| **PR-AUC (скрытый тест)** | **0.9438** |
+| **PR-AUC (валидация, лучшая модель)** | **0.9352** |
 
 ---
 
@@ -44,7 +44,7 @@
 - `supplier_room_name` — название номера от поставщика
 - `hotel_id` — идентификатор отеля
 
-**Метрика:** `PR-AUC` — полнота при высокой точности детекции критична для бизнеса (недовыдача понятных комнат в краудсорсинг = прямые потери выручки).
+**Метрика:** `PR-AUC` — полнота при высокой точности детекции критична для бизнеса.
 
 ---
 
@@ -53,7 +53,7 @@
 ```
 t_bank_itmo/
 ├── solution.ipynb              # Основной ноутбук с решением
-├── public_dataset.csv          # Обучающий датасет
+├── public_dataset.csv          # Обучающий датасет (184 138 строк)
 ├── submission_sample.csv       # Пример формата submission
 ├── presentation.html           # Презентация решения (15 слайдов)
 ├── ии чемп опен трип.pdf       # PDF-версия презентации
@@ -65,130 +65,123 @@ t_bank_itmo/
 
 ## 🧠 Архитектура решения
 
-### Выбор подхода
-
-| Подход | Решение |
-|---|---|
-| ❌ TF-IDF + классик | Не понимает семантику. «twin» и «двуспальный» — разные токены |
-| ✅ **RuBERT + Hotel Embeddings** | Понимает контекст и морфологию русского языка |
-| ⚠️ LLM (GPT/LLaMA) | Избыточно, медленно, дорого. Задача не требует генерации |
-
-### Модель RoomClassifier
+### Пайплайн
 
 ```
-supplier_room_name → Токенизатор RuBERT (MAX_LEN=128)
-                              ↓
-                     RuBERT Encoder
-                              ↓
-                    CLS-вектор [768 dim]
-                              ↓                    hotel_id → Embedding [16 dim]
-                         Concat [784 dim] ←────────────────────────────────────
-                              ↓
-                    Dropout(0.3) → Linear(784→1)
-                              ↓
-                    Вероятность label=1
+public_dataset.csv (184 138 строк)
+        ↓
+1. Предобработка (fillna, длина описания, кол-во слов)
+        ↓
+2. Feature Engineering: AMENITY_GROUPS → бинарные флаги + completeness_score
+        ↓
+3. Словарный скор покрытия (vocab_coverage)
+        ↓
+4. Hotel-статистики из train (avg_name_len, avg_words, target_rate, room_count)
+        ↓
+5. Устранение мультиколлинеарности (порог корреляции > 0.9)
+        ↓
+6. TF-IDF (5000 признаков, ngram 1-2) → TruncatedSVD (50 компонент)
+        ↓
+7. Train / Val split 80/20 (stratify, random_state=42)
+        ↓
+8. Обучение 3 моделей: Logistic Regression, Random Forest, LightGBM
+        ↓
+9. Лучшая модель → submission.csv
 ```
-
-**Ключевые компоненты:**
-- **`DeepPavlov/rubert-base-cased`** — русскоязычная BERT-модель, понимает морфологию (падежи, суффиксы), семантику («двуспальная» ≈ «double»)
-- **Hotel Embedding** — каждый отель получает обучаемый 16-мерный вектор. «Standard» в 5★ отеле ≠ «Standard» в хостеле
-- **`view(-1)` вместо `squeeze()`** — безопасность при batch_size=1
 
 ---
 
-## ⚙️ Гиперпараметры
+## 🔧 Feature Engineering
+
+### AMENITY_GROUPS
+Словарь из ~20 групп признаков с ключевыми словами на русском и английском:
+
+| Группа | Примеры ключевых слов |
+|---|---|
+| `standard` | стандарт, standard, эконом, classic |
+| `comfort` | комфорт, superior, улучшенный |
+| `deluxe` | делюкс, deluxe, de luxe |
+| `suite` | люкс, suite, апартамент, студия |
+| `single_bed` | одноместный, single, sgl |
+| `double_bed` | двухместный, double, dbl |
+| `twin_beds` | twin, две кровати, раздельные |
+| `king_bed` | king, king size |
+| `sea_view` | вид на море, sea view, seaview |
+| `city_view` | вид на город, city view |
+| ... | ... |
+
+### Критические группы (has_* флаги)
+- `has_room_level` — уровень номера (standard/deluxe/suite...)
+- `has_bed_config` — конфигурация кровати
+- `has_view` — вид из окна
+- `has_bedroom_count` — количество комнат
+- `has_outdoor` — балкон/терраса
+- `has_meal` — питание
+
+`completeness_score` = сумма всех `has_*` (от 0 до 6)
+
+### Топ признаков по корреляции с таргетом
+
+| Признак | Корреляция |
+|---|---|
+| `hotel_target_rate` | 0.51 |
+| `room_name_len` | 0.24 |
+| `hotel_avg_name_len` | 0.23 |
+| `double_bed` | 0.17 |
+| `single_bed` | 0.17 |
+| `sofa_bed` | 0.17 |
+| `completeness_score` | 0.09 |
+
+---
+
+## ⚙️ Модели и гиперпараметры
+
+### Сравнение моделей
+
+| Модель | PR-AUC (val) |
+|---|---|
+| Logistic Regression | 0.8815 |
+| Random Forest | 0.9109 |
+| **LightGBM** | **0.9352** ✅ |
+
+### Лучшие параметры LightGBM
 
 | Параметр | Значение |
 |---|---|
-| Модель | `DeepPavlov/rubert-base-cased` |
-| MAX_LEN | 128 |
-| BATCH_SIZE | 32 |
-| EPOCHS | 15 |
-| LR | 2e-5 |
-| Optimizer | AdamW |
-| Scheduler | Linear warmup (10%) |
-| Loss | BCEWithLogitsLoss |
-| Dropout | 0.3 |
-| Hotel emb dim | 16 |
+| `n_estimators` | 300 |
+| `learning_rate` | 0.1 |
+| `max_depth` | 5 |
+| `num_leaves` | 20 |
+| `min_child_samples` | 15 |
+
+### Поиск гиперпараметров
+`RandomizedSearchCV`, `n_iter=30`, `cv=3`, метрика `PR-AUC`
 
 ---
 
-## 🔧 Технические решения
+## 📊 Данные
 
-### Mixed Precision Training
-```python
-with torch.amp.autocast('cuda'):
-    outputs = model(ids, mask, h_idx).view(-1)
-    loss = criterion(outputs, targets)
-
-scaler.scale(loss).backward()
-scaler.step(optimizer)
-```
-Ускорение обучения ×2, экономия GPU-памяти до 50% без потери качества.
-
-### Linear Warmup Scheduler
-Первые 10% шагов LR плавно растёт от 0 до 2e-5, затем линейно убывает. Защищает предобученные веса BERT от резкого изменения в начале обучения.
-
-### Обработка OOV-отелей
-```python
-num_hotels_with_unknown = num_train_hotels + 1  # +1 для неизвестных отелей
-
-test_df['hotel_idx'] = test_df['hotel_id'].apply(
-    lambda x: hotel_mapping.get(x, num_train_hotels)  # OOV → специальный индекс
-)
-```
-
-### Сохранение лучшей модели
-```python
-if pr_auc > best_pr_auc:
-    torch.save(model.state_dict(), 'models/best_model.pth')
-```
-Сохраняется лучшая по PR-AUC на валидации, а не последняя эпоха.
-
----
-
-## 📊 Пайплайн данных
-
-```
-public_dataset.csv
-        ↓
-LabelEncoder (hotel_id → числовой индекс)
-        ↓
-Train / Val split 80/20 (random_state=42)
-        ↓
-RoomDataset (токенизация, padding до MAX_LEN)
-        ↓
-DataLoader (batch=32, shuffle=True для трейна)
-        ↓
-RoomClassifier (RuBERT + Hotel Embedding)
-        ↓
-BCEWithLogitsLoss → AdamW → Linear Warmup
-        ↓
-Валидация → PR-AUC → сохранение лучшей модели
-        ↓
-Предсказание на тесте → submission.csv
-```
-
----
-
-## 📈 Результаты обучения
-
-| Эпоха | PR-AUC (val) |
+| Параметр | Значение |
 |---|---|
-| 1 | 0.9255 |
-| 2 | 0.9376 |
-| 3 | 0.9399 |
-| 6 | **0.9438** ← финальный тест |
-| Kaggle | **0.9735** |
+| Обучающая выборка | 184 138 строк |
+| Train / Val split | 80% / 20% |
+| Признаков итого | 82 |
+| Дисбаланс классов | ~0.94 (label=1 чуть больше) |
 
 ---
 
-## 🔍 Интерпретируемость модели
+## 🔍 Интерпретируемость (Feature Importance)
 
-Модель научилась:
-- **Игнорировать шумовые слова:** «завтрак включён», «2 комнаты», «питание для детей не включено»
-- **Фокусироваться на ключевых маркерах:** «superior», «sea view», «king bed», «deluxe», «twin», «balcony»
-- **Учитывать внутриотельную специфику** через Hotel Embedding
+Топ признаков по важности (LightGBM):
+
+1. `hotel_target_rate` — доля несматченных комнат в отеле
+2. `hotel_avg_vocab_coverage` — средний словарный охват по отелю
+3. `hotel_room_count` — количество комнат в отеле
+4. `hotel_avg_name_len` — средняя длина описания по отелю
+5. `room_name_len` — длина описания конкретной комнаты
+6. `tfidf_svd_0..N` — TF-IDF компоненты
+
+**Вывод:** модель сильно опирается на **внутриотельную специфику** (`hotel_target_rate`, `hotel_avg_*`) — отели с плохим контентом дают плохие описания системно.
 
 ---
 
@@ -197,36 +190,21 @@ BCEWithLogitsLoss → AdamW → Linear Warmup
 ### Зависимости
 
 ```bash
-pip install torch transformers pandas numpy scikit-learn tqdm joblib
+pip install pandas numpy scikit-learn lightgbm shap matplotlib seaborn
 ```
 
-### Обучение и генерация submission
+### Запуск ноутбука
 
 ```bash
-# Структура данных
-data/
-├── public_dataset.csv
-└── new_submission_sample.csv
-
-# Запуск
-python solution.py
+jupyter notebook solution.ipynb
 ```
 
-После обучения:
-- `models/best_model.pth` — лучшая модель
-- `models/hotel_label_encoder.pkl` — энкодер отелей
-- `models/training_log.txt` — лог обучения
-- `submission.csv` — предсказания для теста
-
----
-
-## 💡 Возможные улучшения
-
-- **Аугментация данных** — перефразирование названий номеров
-- **Focal Loss** — для несбалансированных классов
-- **Ensemble** — RuBERT + gradient boosting на ручных признаках
-- **Анализ attention weights** — для более глубокой интерпретации
-- **Стратифицированный split** по hotel_id
+Данные должны лежать рядом:
+```
+t_bank_itmo/
+├── public_dataset.csv
+└── submission_sample.csv
+```
 
 ---
 
@@ -243,7 +221,7 @@ python solution.py
 ## 🛠️ Стек технологий
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
+![LightGBM](https://img.shields.io/badge/LightGBM-2CA5E0?style=for-the-badge)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![SHAP](https://img.shields.io/badge/SHAP-FF6F00?style=for-the-badge)
