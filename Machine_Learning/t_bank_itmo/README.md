@@ -206,15 +206,6 @@ t_bank_itmo/
 └── submission_sample.csv
 ```
 
----
-
-## 👥 Команда OpenTrip
-
-| Участник | Telegram |
-|---|---|
-| Лилиана Валиева | [@seym0](https://t.me/seym0) |
-| Константин Гене | [@k_genne](https://t.me/k_genne) |
-| Дмитрий Азаров | [@Azarov_ML](https://t.me/Azarov_ML) |
 
 ---
 
