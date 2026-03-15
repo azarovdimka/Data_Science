@@ -1,30 +1,80 @@
-# Игнорировать временные файлы
-temp/
+# Виртуальные окружения (в ЛЮБОЙ папке)
+**/venv/
+**/env/
+**/ENV/
+**/.venv/
+**/colab_env/
+**/LLM/
+
+# Python (в ЛЮБОЙ папке)
+**/__pycache__/
+**/*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+**/dist/
+**/build/
+
+# Jupyter
+**/.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ML модели и логи (в ЛЮБОЙ папке)
+**/catboost_info/
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.hdf5
+*.model
+*.weights
+*.ckpt
+*.pth
+*.pt
+
+# Пакеты (в ЛЮБОЙ папке)
+**/python_packages/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Системные
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Личные папки
+Песочница/
+Дипломы сертификаты/
+
+# Большие датасеты
 *.csv
-*.dll
-*.exe
+*.xlsx
+*.xls
+
+# Архивы и бинарники
 *.zip
 *.tar.gz
-*.log
-venv/
-pycache/
-catboost_info/
-venv
-pycache
-Песочница/
-LLM/LLM теория/
-Data_Science/Machine_Learning/catboost_info/
-Machine_Learning/catboost_info/
-python_packages/
-# Модели и артефакты
-models/*.cbm
-models/*.pkl
-*.joblib
-
-# Данные
-data/
-*.csv
+*.rar
+*.7z
+*.dll
+*.exe
 
 # Логи
-logs/
 *.log
+**/logs/
+
+# Временные файлы
+**/temp/
+**/tmp/
+*.tmp
+*.bak
+*.swp

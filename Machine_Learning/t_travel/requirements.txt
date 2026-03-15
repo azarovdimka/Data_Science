@@ -1,0 +1,28 @@
+# Основные библиотеки для Data Science
+numpy==2.4.2
+pandas==3.0.1
+scipy==1.17.1
+
+# Машинное обучение
+scikit-learn==1.8.0
+
+# Градиентный бустинг
+catboost==1.2.7
+lightgbm==4.5.0
+
+# Визуализация
+matplotlib==3.10.6
+seaborn==0.13.2
+
+# Jupyter
+jupyter==1.1.1
+notebook==7.5.4
+ipykernel==7.2.0
+ipython==9.10.0
+
+# Утилиты
+tqdm==4.67.3
+joblib==1.5.3
+
+# Опционально (для работы с данными)
+pyarrow==23.0.1
