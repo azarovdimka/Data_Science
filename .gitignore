@@ -79,3 +79,5 @@ temp_backup/
 *.tmp
 *.bak
 *.swp
+
+*.db
