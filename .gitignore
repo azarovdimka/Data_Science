@@ -3,6 +3,7 @@
 **/env/
 **/ENV/
 **/.venv/
+**/.env/
 **/colab_env/
 **/LLM/
 
@@ -80,4 +81,4 @@ temp_backup/
 *.bak
 *.swp
 
-*.db
+*.db.env
